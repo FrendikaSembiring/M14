@@ -8,6 +8,7 @@ class Pertemuan14Screen extends StatefulWidget {
 }
 
 class _Pertemuan14ScreenState extends State<Pertemuan14Screen> {
+  DateTime _date = DateTime.now();
   DateTimeRange? _dateRange;
   TextEditingController? _time;
 
@@ -15,13 +16,59 @@ class _Pertemuan14ScreenState extends State<Pertemuan14Screen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Date Range Picker'),
+        title: const Text('Pertemuan14'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            // Date Range Picker
+            // DatePicker
+            Row(
+              children: [
+                const Text('Tanggal:'),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: InputDatePickerFormField(
+                    initialDate: _date,
+                    firstDate: DateTime(1998),
+                    lastDate: DateTime(2250),
+                    onDateSubmitted: (date) {
+                      setState(() {
+                        _date = date;
+                        print(_date);
+                      });
+                    },
+                  ),
+                ),
+                IconButton(
+                  onPressed: () async {
+                    var res = await showDatePicker(
+                      context: context,
+                      initialDate: _date,
+                      firstDate: DateTime(2000),
+                      lastDate: DateTime(2090),
+                    );
+
+                    if (res != null) {
+                      setState(() {
+                        _date = res;
+                        _dateRange =
+                            null; // Menghapus rentang waktu saat memilih tanggal baru
+                      });
+                    }
+                  },
+                  icon: const Icon(Icons.date_range),
+                ),
+              ],
+            ),
+
+            ListTile(
+              title: const Text('Tanggal Terpilih'),
+              subtitle: Text(
+                  _date.toString().split(' ')[0]), // Hanya menampilkan tanggal
+            ),
+
+            const Divider(),
             Row(
               children: [
                 const Text('Rentang Tanggal:'),
