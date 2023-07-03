@@ -112,9 +112,15 @@ class _Pertemuan14ScreenState extends State<Pertemuan14Screen> {
                 subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                        'Mulai: ${_dateRange!.start.toString().split(' ')[0]}'),
-                    Text('Akhir: ${_dateRange!.end.toString().split(' ')[0]}'),
+                    for (int i = 0;
+                        i <=
+                            _dateRange!.end
+                                .difference(_dateRange!.start)
+                                .inDays;
+                        i++)
+                      Text((_dateRange!.start.add(Duration(days: i)))
+                          .toString()
+                          .split(' ')[0]),
                   ],
                 ),
               ),
